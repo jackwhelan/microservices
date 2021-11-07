@@ -6,8 +6,10 @@ pipeline {
         stage("Version Bump") {
             steps {
                 sh "docker run -v ${env.WORKSPACE}/data-access:/app/microservice jackwhelan/version-bump:latest ${VERSION_TYPE}"
+                script {
+                    env.VERSION = readFile 'data-access/VERSION'
+                }
             }
-            env.VERSION = readFile 'data-access/VERSION'
         }
         stage("Build") {
             steps {
