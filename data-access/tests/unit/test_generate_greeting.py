@@ -1,3 +1,6 @@
+'''
+Placeholder tests to lay down boilerplate architecture.
+'''
 from src.entities.person import Person
 
 def test_greet_person():
