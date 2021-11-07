@@ -1,5 +1,5 @@
 pipeline {
-    agent any
+    agent SLAVE
     stages {
         stage("Docker Build") {
             steps {
