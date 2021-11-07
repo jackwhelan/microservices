@@ -11,7 +11,7 @@ def default_route():
     '''
     Default route of the data-access API.
     '''
-    return "Default Route"
+    return "Default Route!"
 
 app.register_blueprint(api_routes)
 
