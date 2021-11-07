@@ -1,5 +1,7 @@
 pipeline {
-    agent SLAVE
+    agent {
+        label SLAVE
+    }
     stages {
         stage("Get Version from File") {
             env.VERSION = readFile 'VERSION'
