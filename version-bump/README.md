@@ -3,7 +3,7 @@ Just put together this primitive version file bump utility for use in CI/CD flow
 
 ```
 docker build -t version-bumper .
-docker run -v ${pwd}/VERSION:/app/VERSION version-bumper minor
+docker run -v ${env.WORKSPACE}:/app/microservice version-bumper minor
 ```
 
-In this example I am mounting the version file into the workspace of the image and passing "minor" as the version to bump.
+In this example I am mounting a Jenkins workspace into a microservice folder on the image and passing "minor" as the version to bump.

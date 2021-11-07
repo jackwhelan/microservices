@@ -4,7 +4,7 @@ from version import Version
 
 if __name__ == '__main__':
     version_strs = None
-    with open('VERSION', 'r') as version_file:
+    with open('microservice/VERSION', 'r') as version_file:
         version_strs = version_file.readline().split('.')
     
     version = Version(
