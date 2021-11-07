@@ -2,12 +2,10 @@ pipeline {
     agent {
         label SLAVE
     }
+    environment {
+        VERSION = readFile 'VERSION'
+    }
     stages {
-        stage("Get Version from File") {
-            steps {
-                env.VERSION = readFile 'VERSION'
-            }
-        }
         stage("Build") {
             steps {
                 sh "docker build -t jackwhelan/data-access data-access -f data-access/Dockerfile"
