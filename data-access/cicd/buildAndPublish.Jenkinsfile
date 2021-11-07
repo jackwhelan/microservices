@@ -4,7 +4,9 @@ pipeline {
     }
     stages {
         stage("Get Version from File") {
-            env.VERSION = readFile 'VERSION'
+            steps {
+                env.VERSION = readFile 'VERSION'
+            }
         }
         stage("Build") {
             steps {
