@@ -13,8 +13,8 @@ pipeline {
         }
         stage("Tag Image") {
             steps {
-                sh "docker image tag jackwhelan/data-access data-access:latest"
-                sh "docker image tag jackwhelan/data-access data-access:${env.VERSION}"
+                sh "docker image tag jackwhelan/data-access jackwhelan/data-access:latest"
+                sh "docker image tag jackwhelan/data-access jackwhelan/data-access:${env.VERSION}"
             }
         }
         stage("Publish") {
