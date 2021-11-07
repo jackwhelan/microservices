@@ -2,14 +2,12 @@ pipeline {
     agent {
         label SLAVE
     }
-    environment {
-        VERSION = readFile 'data-access/VERSION'
-    }
     stages {
         stage("Version Bump") {
             steps {
-                sh "docker run -v ${env.WORKSPACE}:/app/microservice jackwhelan/version-bump:latest ${VERSION_TYPE}"
+                sh "docker run -v ${env.WORKSPACE}/data-access:/app/microservice jackwhelan/version-bump:latest ${VERSION_TYPE}"
             }
+            env.VERSION = readFile 'data-access/VERSION'
         }
         stage("Build") {
             steps {
