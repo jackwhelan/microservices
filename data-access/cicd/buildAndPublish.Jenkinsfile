@@ -6,6 +6,11 @@ pipeline {
         VERSION = readFile 'data-access/VERSION'
     }
     stages {
+        stage("Version Bump") {
+            steps {
+                sh "docker run -v ${pwd}/VERSION:/app/VERSION jackwhelan/version-bump:latest ${VERSION_TYPE}"
+            }
+        }
         stage("Build") {
             steps {
                 sh "docker build -t jackwhelan/data-access data-access -f data-access/Dockerfile"
