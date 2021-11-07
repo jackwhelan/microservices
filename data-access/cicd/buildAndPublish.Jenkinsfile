@@ -8,7 +8,7 @@ pipeline {
     stages {
         stage("Version Bump") {
             steps {
-                sh "docker run -v ${env.WORKSPACE}/VERSION:/app/VERSION jackwhelan/version-bump:latest ${VERSION_TYPE}"
+                sh "docker run -v ${env.WORKSPACE}:/app/microservice jackwhelan/version-bump:latest ${VERSION_TYPE}"
             }
         }
         stage("Build") {
