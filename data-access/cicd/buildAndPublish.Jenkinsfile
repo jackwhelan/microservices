@@ -3,7 +3,7 @@ pipeline {
         label SLAVE
     }
     environment {
-        VERSION = readFile 'VERSION'
+        VERSION = readFile 'data-access/VERSION'
     }
     stages {
         stage("Build") {
