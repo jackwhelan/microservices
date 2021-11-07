@@ -8,7 +8,7 @@ pipeline {
         }
         stage("Pylint") {
             steps {
-                sh "docker run --workdir='/' --name ${BUILD_TAG}-linting jackwhelan/data-access-precode:${BUILD_TAG} pylint app"
+                sh "docker run --workdir='/' --name ${BUILD_TAG}-linting jackwhelan/data-access-precode:${BUILD_TAG} pylint --rcfile=/app/.pylintrc app"
             }
         }
         stage("Pytest") {
