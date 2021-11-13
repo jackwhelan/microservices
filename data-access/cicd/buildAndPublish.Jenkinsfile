@@ -1,3 +1,5 @@
+def VERSION;
+
 pipeline {
     agent {
         label SLAVE
@@ -7,7 +9,7 @@ pipeline {
             steps {
                 sh "docker run -v ${env.WORKSPACE}/data-access:/app/microservice jackwhelan/version-bump:latest ${VERSION_TYPE}"
                 script {
-                    env.VERSION = readFile 'data-access/VERSION'
+                    VERSION = readFile 'data-access/VERSION'
                 }
             }
         }
@@ -19,20 +21,20 @@ pipeline {
         stage("Tag Image") {
             steps {
                 sh "docker image tag jackwhelan/data-access jackwhelan/data-access:latest"
-                sh "docker image tag jackwhelan/data-access jackwhelan/data-access:${env.VERSION}"
+                sh "docker image tag jackwhelan/data-access jackwhelan/data-access:${VERSION}"
             }
         }
         stage("Publish") {
             steps {
                 sh "docker push jackwhelan/data-access:latest"
-                sh "docker push jackwhelan/data-access:${env.VERSION}"
+                sh "docker push jackwhelan/data-access:${VERSION}"
             }
         }
         stage("Cleanup") {
             steps {
                 sh "docker rmi jackwhelan/data-access | true"
                 sh "docker rmi jackwhelan/data-access:latest | true"
-                sh "docker rmi jackwhelan/data-access:${env.VERSION} | true"
+                sh "docker rmi jackwhelan/data-access:${VERSION} | true"
             }
         }
     }
