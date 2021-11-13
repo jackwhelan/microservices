@@ -18,5 +18,5 @@ class Version:
             raise Exception(f'No such version type "{type}".')
     
     def persist(self):
-        with open('VERSION', 'w') as version_file:
+        with open('microservice/VERSION', 'w') as version_file:
             version_file.write(str(self))
