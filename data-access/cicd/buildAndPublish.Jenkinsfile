@@ -48,7 +48,7 @@ pipeline {
                 sh "git push --tags"
                 sh "git add VERSION"
                 sh "git add ${MICROSERVICE}/VERSION"
-                sh "git commit -m ${MICROSERVICE} v${MICROSERVICE_VERSION} built and published to ${DOCKER_REPO}/${MICROSERVICE} on Dockerhub."
+                sh "git commit -m \"${MICROSERVICE} v${MICROSERVICE_VERSION} built and published to ${DOCKER_REPO}/${MICROSERVICE} on Dockerhub.\""
             }
         }
         stage("Cleanup") {
