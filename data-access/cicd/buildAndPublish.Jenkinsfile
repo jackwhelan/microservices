@@ -45,10 +45,10 @@ pipeline {
         stage("Pushing Git Tags and Version file Changes") {
             steps {
                 sh "git tag -a \"v${REPO_VERSION}\" -m \"${MICROSERVICE} bumped to v${MICROSERVICE_VERSION}\""
-                sh "git push --tags"
                 sh "git add VERSION"
                 sh "git add ${MICROSERVICE}/VERSION"
                 sh "git commit -m \"${MICROSERVICE} v${MICROSERVICE_VERSION} built and published to ${DOCKER_REPO}/${MICROSERVICE} on Dockerhub.\""
+                sh "git push --atomic origin master \"v${REPO_VERSION}\""
             }
         }
         stage("Cleanup") {
