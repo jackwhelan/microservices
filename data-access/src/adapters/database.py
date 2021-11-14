@@ -23,4 +23,3 @@ class DatabaseAdapter(ABC):
         :param database_name: Name of the database to connect to.
         :return cursor: Object through which the database can be used.
         '''
-        pass
