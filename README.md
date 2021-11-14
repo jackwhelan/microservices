@@ -1,4 +1,4 @@
-# Microservices
+# Microservices [![Build Status](http://89.100.10.68:8080/buildStatus/icon?job=data-access-build-and-publish&build=34)](http://89.100.10.68:8080/job/data-access-build-and-publish/34/)
 A repo for housing reusable microservices I plan to develop to use across personal projects. This repo will also house little tools and utilities to aid with the use, maintenance, development and CI/CD of these microservices.
 
 ## Current Microservices
@@ -12,11 +12,11 @@ A repo for housing reusable microservices I plan to develop to use across person
 ## Versioning Strategy
 ### Repo Level Version File
 - Major Increment:
-  - New Microservice/Tool Added
+  - New Microservice/Tool Added.
 - Minor Increment:
   - When a microservice gets a major version bump.
 - Patch Increment:
-  - When a microservice gets a minor or patch version bump
+  - When a microservice gets a minor or patch version bump.
 
 ### Microservice Level Version File
 - Major Increment:
