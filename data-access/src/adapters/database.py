@@ -21,5 +21,23 @@ class DatabaseAdapter(ABC):
         Establishes a connection with the database and returns an object with
         which the database can be interacted with.
         :param database_name: Name of the database to connect to.
-        :return cursor: Object through which the database can be used.
+        :return: cursor
+        '''
+    
+    @abstractmethod
+    def insert(self, database_name, table_name, data):
+        '''
+        Method to insert data into a table or collection
+        :param database_name:
+        :param table_name:
+        :param data:
+        '''
+
+    @abstractmethod
+    def find_by_id(self, database_name, table_name, id):
+        '''
+        Method to find a document or row by id.
+        :param database_name:
+        :param table_name:
+        :param id:
         '''
