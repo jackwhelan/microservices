@@ -12,11 +12,11 @@ A repo for housing reusable microservices I plan to develop to use across person
 ## Versioning Strategy
 ### Repo Level Version File
 - Major Increment:
-  - New Microservice/Tool Added
+  - New Microservice/Tool Added.
 - Minor Increment:
   - When a microservice gets a major version bump.
 - Patch Increment:
-  - When a microservice gets a minor or patch version bump
+  - When a microservice gets a minor or patch version bump.
 
 ### Microservice Level Version File
 - Major Increment:
