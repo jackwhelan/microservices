@@ -91,6 +91,7 @@ jobs:
 
 
       - name: Docker Login
+        if: ${{ github.event.inputs.MICROSERVICE != 'none' }}
         env:
           DOCKER_USER: ${{ secrets.DOCKER_USER }}
           DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
@@ -98,11 +99,13 @@ jobs:
         run: |
           docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
       - name: Docker Build
+        if: ${{ github.event.inputs.MICROSERVICE != 'none' }}
         run: |
           VERSION=$(cat $MICROSERVICE/VERSION)
           docker build -t jackwhelan/$MICROSERVICE:latest $MICROSERVICE
           docker tag jackwhelan/$MICROSERVICE:latest jackwhelan/$MICROSERVICE:$VERSION
       - name: Docker Push
+        if: ${{ github.event.inputs.MICROSERVICE != 'none' }}
         run: |
           VERSION=$(cat $MICROSERVICE/VERSION)
           docker push jackwhelan/$MICROSERVICE:latest
