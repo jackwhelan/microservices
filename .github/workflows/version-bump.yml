@@ -76,8 +76,7 @@ jobs:
           then
             NEW_MS_VERSION=$(cat $MICROSERVICE/VERSION)
             git tag -a "v$NEW_REPO_VERSION" -m "$MICROSERVICE bumped to v$NEW_MS_VERSION."
-            git add VERSION
-            git add $MICROSERVICE/VERSION
+            git add .
             git commit -m "$MICROSERVICE version bumped to v$NEW_MS_VERSION."
             git push origin HEAD:master --follow-tags
           else
