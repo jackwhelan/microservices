@@ -6,7 +6,6 @@ on:
       REPO_VERSION_TYPE:
         description: 'Repo Version Type'
         required: true
-        type: string
         default: 'auto'
         type: choice
         options:
@@ -17,7 +16,6 @@ on:
       MICROSERVICE:
         description: 'Updated Microservice/Tool'
         required: true
-        type: string
         default: 'none'
         type: choice
         options:
@@ -27,7 +25,6 @@ on:
       MICROSERVICE_VERSION_TYPE:
         description: 'Microservice Version Type'
         required: true
-        type: string
         default: 'none'
         type: choice
         options:
