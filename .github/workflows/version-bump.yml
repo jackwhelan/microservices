@@ -1,4 +1,4 @@
-name: Version Bump
+name: Version-Bump
 
 on:
   workflow_dispatch:
@@ -37,14 +37,18 @@ on:
         - major
 
 jobs:
+
   version-bump:
     runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v3
+
       - name: Git Config
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
       - name: Bump Repo Version
         run: |
           if [ "$REPO_VERSION_TYPE" = "auto" ]
@@ -61,6 +65,7 @@ jobs:
         env:
           REPO_VERSION_TYPE: ${{ github.event.inputs.REPO_VERSION_TYPE }}
           MICROSERVICE_VERSION_TYPE: ${{ github.event.inputs.MICROSERVICE_VERSION_TYPE }}
+
       - name: Bump Microservice Version
         run: |
           if [ "$MICROSERVICE_VERSION_TYPE" != "none" ] && [ "$MICROSERVICE" != "none" ]
@@ -70,10 +75,15 @@ jobs:
         env:
           MICROSERVICE: ${{ github.event.inputs.MICROSERVICE }}
           MICROSERVICE_VERSION_TYPE: ${{ github.event.inputs.MICROSERVICE_VERSION_TYPE }}
+
       - name: Pushing Git Tags and Version File Changes
         run: |
+          VER=$(cat VERSION)
+          echo "REPO_VERSION=$VER" >> $GITHUB_ENV
           if [ "$MICROSERVICE_VERSION_TYPE" != "none" ] && [ "$MICROSERVICE" != "none" ]
           then
+            VER=$(cat $MICROSERVICE/VERSION)
+            echo "VERSION=$VER" >> $GITHUB_ENV
             git tag -a "v${REPO_VERSION}" -m "${MICROSERVICE} bumped to v${MICROSERVICE_VERSION}."
             git add VERSION
             git add ${MICROSERVICE}/VERSION
@@ -85,3 +95,6 @@ jobs:
             git commit -m "Repo bumped to v${REPO_VERSION}."
             git push origin HEAD:master --follow-tags
           fi
+        env:
+          MICROSERVICE: ${{ github.event.inputs.MICROSERVICE }}
+          MICROSERVICE_VERSION_TYPE: ${{ github.event.inputs.MICROSERVICE_VERSION_TYPE }}
