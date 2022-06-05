@@ -58,7 +58,7 @@ jobs:
                 $REPO_VERSION_TYPE = "patch"
             fi
           fi
-          docker run -v ${pwd}/VERSION:/app/microservice/VERSION jackwhelan/version-bump:latest $REPO_VERSION_TYPE
+          docker run -v ${pwd}:/app/microservice jackwhelan/version-bump:latest $REPO_VERSION_TYPE
         env:
           REPO_VERSION_TYPE: ${{ github.event.inputs.REPO_VERSION_TYPE }}
           MICROSERVICE_VERSION_TYPE: ${{ github.event.inputs.MICROSERVICE_VERSION_TYPE }}
@@ -67,7 +67,7 @@ jobs:
         run: |
           if [ "$MICROSERVICE_VERSION_TYPE" != "none" ] && [ "$MICROSERVICE" != "none" ]
           then
-            docker run -v ${pwd}/${MICROSERVICE}/VERSION:/app/microservice/VERSION jackwhelan/version-bump:latest $MICROSERVICE_VERSION_TYPE
+            docker run -v ${pwd}/${MICROSERVICE}:/app/microservice jackwhelan/version-bump:latest $MICROSERVICE_VERSION_TYPE
           fi
         env:
           MICROSERVICE: ${{ github.event.inputs.MICROSERVICE }}
