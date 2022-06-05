@@ -47,12 +47,12 @@ jobs:
           then 
             if [ "$MICROSERVICE_VERSION_TYPE" = "major" ]
             then 
-                $REPO_VERSION_TYPE = "minor"
+                REPO_VERSION_TYPE="minor"
             else
-                $REPO_VERSION_TYPE = "patch"
+                REPO_VERSION_TYPE="patch"
             fi
           fi
-          docker run -v $(pwd)/VERSION:/app/microservice/VERSION jackwhelan/version-bump:latest patch
+          docker run -v $(pwd)/VERSION:/app/microservice/VERSION jackwhelan/version-bump:latest $REPO_VERSION_TYPE
         env:
           REPO_VERSION_TYPE: ${{ github.event.inputs.REPO_VERSION_TYPE }}
           MICROSERVICE_VERSION_TYPE: ${{ github.event.inputs.MICROSERVICE_VERSION_TYPE }}
