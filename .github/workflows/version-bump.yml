@@ -36,52 +36,52 @@ on:
         - minor
         - major
 
-  jobs:
-    version-bump:
-      runs-on: ubuntu-latest
-      steps:
-        - uses: actions/checkout@v3
-        - name: Git Config
-          run: |
-            git config --global user.name "github-actions[bot]"
-            git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
-        - name: Bump Repo Version
-          run: |
-            if [ "$REPO_VERSION_TYPE" = "auto" ]
-            then 
-              if [ "$MICROSERVICE_VERSION_TYPE" = "major" ]
+    jobs:
+      version-bump:
+        runs-on: ubuntu-latest
+        steps:
+          - uses: actions/checkout@v3
+          - name: Git Config
+            run: |
+              git config --global user.name "github-actions[bot]"
+              git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          - name: Bump Repo Version
+            run: |
+              if [ "$REPO_VERSION_TYPE" = "auto" ]
               then 
-                  $REPO_VERSION_TYPE = "minor"
-              elif [ $MICROSERVICE_VERSION_TYPE = "minor" ] && [ $MICROSERVICE_VERSION_TYPE = "patch" ]
-              then
-                  $REPO_VERSION_TYPE = "patch"
+                if [ "$MICROSERVICE_VERSION_TYPE" = "major" ]
+                then 
+                    $REPO_VERSION_TYPE = "minor"
+                elif [ $MICROSERVICE_VERSION_TYPE = "minor" ] && [ $MICROSERVICE_VERSION_TYPE = "patch" ]
+                then
+                    $REPO_VERSION_TYPE = "patch"
+                fi
               fi
-            fi
-            docker run -v VERSION:/app/microservice/VERSION jackwhelan/version-bump:latest $REPO_VERSION_TYPE
-          env:
-            REPO_VERSION_TYPE: ${{ github.event.inputs.REPO_VERSION_TYPE }}
-            MICROSERVICE_VERSION_TYPE: ${{ github.event.inputs.MICROSERVICE_VERSION_TYPE }}
-        - name: Bump Microservice Version
-          run: |
-            if [ "$MICROSERVICE_VERSION_TYPE" != "none" ] && [ "$MICROSERVICE" != "none" ]
-            then
-              docker run -v ${MICROSERVICE}/VERSION:/app/microservice/VERSION jackwhelan/version-bump:latest $MICROSERVICE_VERSION_TYPE
-            fi
-          env:
-            MICROSERVICE: ${{ github.event.inputs.MICROSERVICE }}
-            MICROSERVICE_VERSION_TYPE: ${{ github.event.inputs.MICROSERVICE_VERSION_TYPE }}
-        - name: Pushing Git Tags and Version File Changes
-          run: |
-            if [ "$MICROSERVICE_VERSION_TYPE" != "none" ] && [ "$MICROSERVICE" != "none" ]
-            then
-              git tag -a "v${REPO_VERSION}" -m "${MICROSERVICE} bumped to v${MICROSERVICE_VERSION}."
-              git add VERSION
-              git add ${MICROSERVICE}/VERSION
-              git commit -m "${MICROSERVICE} version bumped to v${MICROSERVICE_VERSION}."
-              git push origin HEAD:master --follow-tags
-            else
-              git tag -a "v${REPO_VERSION}" -m "Repo bumped to v${REPO_VERSION}."
-              git add VERSION
-              git commit -m "Repo bumped to v${REPO_VERSION}."
-              git push origin HEAD:master --follow-tags
-            fi
+              docker run -v VERSION:/app/microservice/VERSION jackwhelan/version-bump:latest $REPO_VERSION_TYPE
+            env:
+              REPO_VERSION_TYPE: ${{ github.event.inputs.REPO_VERSION_TYPE }}
+              MICROSERVICE_VERSION_TYPE: ${{ github.event.inputs.MICROSERVICE_VERSION_TYPE }}
+          - name: Bump Microservice Version
+            run: |
+              if [ "$MICROSERVICE_VERSION_TYPE" != "none" ] && [ "$MICROSERVICE" != "none" ]
+              then
+                docker run -v ${MICROSERVICE}/VERSION:/app/microservice/VERSION jackwhelan/version-bump:latest $MICROSERVICE_VERSION_TYPE
+              fi
+            env:
+              MICROSERVICE: ${{ github.event.inputs.MICROSERVICE }}
+              MICROSERVICE_VERSION_TYPE: ${{ github.event.inputs.MICROSERVICE_VERSION_TYPE }}
+          - name: Pushing Git Tags and Version File Changes
+            run: |
+              if [ "$MICROSERVICE_VERSION_TYPE" != "none" ] && [ "$MICROSERVICE" != "none" ]
+              then
+                git tag -a "v${REPO_VERSION}" -m "${MICROSERVICE} bumped to v${MICROSERVICE_VERSION}."
+                git add VERSION
+                git add ${MICROSERVICE}/VERSION
+                git commit -m "${MICROSERVICE} version bumped to v${MICROSERVICE_VERSION}."
+                git push origin HEAD:master --follow-tags
+              else
+                git tag -a "v${REPO_VERSION}" -m "Repo bumped to v${REPO_VERSION}."
+                git add VERSION
+                git commit -m "Repo bumped to v${REPO_VERSION}."
+                git push origin HEAD:master --follow-tags
+              fi
