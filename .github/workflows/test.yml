@@ -1,15 +1,26 @@
-name: Manual-Actions-Workflow
+name: Mixed inputs
 
 on:
-  workflow_dispatch
+  workflow_dispatch:
+    inputs:
+      name:
+        type: choice
+        description: Who to greet
+        options: 
+        - monalisa
+        - cschleiden
+      message:
+        required: true
+      use-emoji:
+        type: boolean
+        description: Include 🎉🤣 emojis
+      environment:
+        type: environment
 
 jobs:
-
-  build:
+  greet:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
-
-    - name: Say something
-      run: echo "Hi, I have been manually triggered!"
+    - name: Send greeting
+      run: echo "${{ github.event.inputs.message }} ${{ fromJSON('["", "🥳"]')[github.event.inputs.use-emoji == 'true'] }} ${{ github.event.inputs.name }}"
