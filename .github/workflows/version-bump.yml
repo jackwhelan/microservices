@@ -53,8 +53,7 @@ jobs:
             if [ "$MICROSERVICE_VERSION_TYPE" = "major" ]
             then 
                 $REPO_VERSION_TYPE = "minor"
-            elif [ $MICROSERVICE_VERSION_TYPE = "minor" ] || [ $MICROSERVICE_VERSION_TYPE = "patch" ]
-            then
+            else
                 $REPO_VERSION_TYPE = "patch"
             fi
           fi
