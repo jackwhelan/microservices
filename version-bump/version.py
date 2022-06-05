@@ -10,8 +10,11 @@ class Version:
     def bump(self, type: str):
         if (type == 'major'):
             self.__major += 1
+            self.__minor = 0
+            self.__patch = 0
         elif (type == 'minor'):
             self.__minor += 1
+            self.__patch = 0
         elif (type == 'patch'):
             self.__patch += 1
         else:
