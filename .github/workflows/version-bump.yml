@@ -71,21 +71,19 @@ jobs:
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          VER=$(cat VERSION)
-          echo "REPO_VERSION=$VER" >> $GITHUB_ENV
+          NEW_REPO_VERSION=$(cat VERSION)
           if [ "$MICROSERVICE_VERSION_TYPE" != "none" ] && [ "$MICROSERVICE" != "none" ]
           then
-            VER=$(cat $MICROSERVICE/VERSION)
-            echo "VERSION=$VER" >> $GITHUB_ENV
-            git tag -a "v$REPO_VERSION" -m "$MICROSERVICE bumped to v$MICROSERVICE_VERSION."
+            NEW_MS_VERSION=$(cat $MICROSERVICE/VERSION)
+            git tag -a "v$NEW_REPO_VERSION" -m "$MICROSERVICE bumped to v$NEW_MS_VERSION."
             git add VERSION
             git add $MICROSERVICE/VERSION
-            git commit -m "$MICROSERVICE version bumped to v$MICROSERVICE_VERSION."
+            git commit -m "$MICROSERVICE version bumped to v$NEW_MS_VERSION."
             git push origin HEAD:master --follow-tags
           else
-            git tag -a "v$REPO_VERSION" -m "Repo bumped to v$REPO_VERSION."
+            git tag -a "v$NEW_REPO_VERSION" -m "Repo bumped to v$NEW_REPO_VERSION."
             git add VERSION
-            git commit -m "Repo bumped to v$REPO_VERSION."
+            git commit -m "Repo bumped to v$NEW_REPO_VERSION."
             git push origin HEAD:master --follow-tags
           fi
         env:
