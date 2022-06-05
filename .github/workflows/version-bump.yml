@@ -42,6 +42,9 @@ jobs:
       - uses: actions/checkout@v3
 
       - name: Bump Repo Version
+        env:
+          REPO_VERSION_TYPE: ${{ github.event.inputs.REPO_VERSION_TYPE }}
+          MICROSERVICE_VERSION_TYPE: ${{ github.event.inputs.MICROSERVICE_VERSION_TYPE }}
         run: |
           if [ "$REPO_VERSION_TYPE" = "auto" ]
           then 
@@ -53,21 +56,21 @@ jobs:
             fi
           fi
           docker run -v $(pwd)/VERSION:/app/microservice/VERSION jackwhelan/version-bump:latest $REPO_VERSION_TYPE
-        env:
-          REPO_VERSION_TYPE: ${{ github.event.inputs.REPO_VERSION_TYPE }}
-          MICROSERVICE_VERSION_TYPE: ${{ github.event.inputs.MICROSERVICE_VERSION_TYPE }}
 
       - name: Bump Microservice Version
+        env:
+          MICROSERVICE: ${{ github.event.inputs.MICROSERVICE }}
+          MICROSERVICE_VERSION_TYPE: ${{ github.event.inputs.MICROSERVICE_VERSION_TYPE }}
         run: |
           if [ "$MICROSERVICE_VERSION_TYPE" != "none" ] && [ "$MICROSERVICE" != "none" ]
           then
             docker run -v $(pwd)/${MICROSERVICE}/VERSION:/app/microservice/VERSION jackwhelan/version-bump:latest $MICROSERVICE_VERSION_TYPE
           fi
+
+      - name: Pushing Git Tags and Version File Changes
         env:
           MICROSERVICE: ${{ github.event.inputs.MICROSERVICE }}
           MICROSERVICE_VERSION_TYPE: ${{ github.event.inputs.MICROSERVICE_VERSION_TYPE }}
-
-      - name: Pushing Git Tags and Version File Changes
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
@@ -85,6 +88,22 @@ jobs:
             git commit -m "Repo bumped to v$NEW_REPO_VERSION."
             git push origin HEAD:master --follow-tags
           fi
+
+
+      - name: Docker Login
         env:
+          DOCKER_USER: ${{ secrets.DOCKER_USER }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
           MICROSERVICE: ${{ github.event.inputs.MICROSERVICE }}
-          MICROSERVICE_VERSION_TYPE: ${{ github.event.inputs.MICROSERVICE_VERSION_TYPE }}
+        run: |
+          docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
+      - name: Docker Build
+        run: |
+          VERSION=$(cat $MICROSERVICE/VERSION)
+          docker build -t jackwhelan/$MICROSERVICE:latest $MICROSERVICE
+          docker tag jackwhelan/$MICROSERVICE:latest jackwhelan/$MICROSERVICE:$VERSION
+      - name: Docker Push
+        run: |
+          VERSION=$(cat $MICROSERVICE/VERSION)
+          docker push jackwhelan/$MICROSERVICE:latest
+          docker push jackwhelan/$MICROSERVICE:$VERSION
