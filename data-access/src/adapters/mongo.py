@@ -7,6 +7,7 @@ from bson.objectid import ObjectId
 from bson.json_util import dumps
 
 from src.adapters.database import DatabaseAdapter
+from src.etc.exceptions import DatabaseException
 
 class MongoAdapter(DatabaseAdapter):
     '''
@@ -44,25 +45,25 @@ class MongoAdapter(DatabaseAdapter):
         try:
             collection.insert_one(data)
             return {'response': 200}
-        except:
+        except DatabaseException:
             return {'response': 500}
 
-    def find_by_id(self, database_name, collection_name, id=None):
+    def find_by_oid(self, database_name, collection_name, oid=None):
         '''
         Method to read data from a table or colleection
         :param database_name:
         :param collection_name:
-        :param id:
+        :param oid:
         '''
         database = self.client[database_name]
         collection = database[collection_name]
-        if id is not None:
+        if oid is not None:
             try:
-                return dumps(list(collection.find({'_id': ObjectId(id)})))
-            except:
+                return dumps(list(collection.find({'_id': ObjectId(oid)})))
+            except DatabaseException:
                 return {'response': 500}
         else:
             try:
                 return dumps(list(collection.find()))
-            except:
+            except DatabaseException:
                 return {'response': 500}

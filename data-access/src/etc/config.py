@@ -29,5 +29,4 @@ class ConfigHandler:
     def __getitem__(self, key):
         if key in self.config:
             return self.config[key]
-        else:
-            raise Exception(f'{key} not set in configuration.')
+        raise Exception(f'{key} not set in configuration.')

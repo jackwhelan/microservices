@@ -23,18 +23,19 @@ def insert(database, collection):
     '''
     API Route to insert data into a database.
     '''
-    db = database_adapter[config['database_type']](
+    db_adapter = database_adapter[config['database_type']](
         os.getenv('DATABASE_HOST'),
         os.getenv('DATABASE_PORT'),
         os.getenv('DATABASE_USER'),
         os.getenv('DATABASE_PASS')
     )
-    db.connect(database)
+    db_adapter.connect(database)
     if request.method == 'GET':
-        if request.args.get('id') is not None:
-            return db.find_by_id(database, collection, request.args.get('id'))
+        if request.args.get('oid') is not None:
+            response = db_adapter.find_by_oid(database, collection, request.args.get('id'))
         else:
-            print('No id passed with request')
-            return db.find_by_id(database, collection)
+            print('No oid passed with request')
+            response = db_adapter.find_by_oid(database, collection)
     elif request.method == 'POST':
-        return db.insert(database, collection, request.get_json())
+        response = db_adapter.insert(database, collection, request.get_json())
+    return response
