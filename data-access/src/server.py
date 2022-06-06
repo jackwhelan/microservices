@@ -2,7 +2,7 @@
 Entrypoint to the Data-Access microservice.
 '''
 from flask import Flask
-from src.adapters.api_routes import api_routes
+from src.api_routes import api_routes
 
 app = Flask(__name__)
 
