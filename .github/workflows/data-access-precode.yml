@@ -1,0 +1,21 @@
+name: Precode Review
+
+on: [pull_request]
+    
+jobs:
+
+  version-bump:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Docker Build Data-Access
+        run: |
+          docker build -t jackwhelan/data-access-precode:latest data-access -f data-access/Dockerfile
+      - name: Pylint Data-Access
+        run: |
+          docker run --workdir='/' jackwhelan/data-access-precode:latest pylint --rcfile /app/.pylintrc app
+      - name: Pytest Data-Access
+        run: |
+          docker run jackwhelan/data-access-precode:latest pytest
