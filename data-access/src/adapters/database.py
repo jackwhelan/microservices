@@ -14,6 +14,8 @@ class DatabaseAdapter(ABC):
         self.port = int(port)
         self.username = username
         self.password = password
+        self.default_database = None
+        self.client = None
 
     @abstractmethod
     def connect(self, database_name):
@@ -23,7 +25,7 @@ class DatabaseAdapter(ABC):
         :param database_name: Name of the database to connect to.
         :return: cursor
         '''
-    
+
     @abstractmethod
     def insert(self, database_name, table_name, data):
         '''
@@ -34,10 +36,10 @@ class DatabaseAdapter(ABC):
         '''
 
     @abstractmethod
-    def find_by_id(self, database_name, table_name, id):
+    def find_by_oid(self, database_name, table_name, oid):
         '''
         Method to find a document or row by id.
         :param database_name:
         :param table_name:
-        :param id:
+        :param oid:
         '''
