@@ -4,22 +4,17 @@ API Routes for the Data-Access microservice.
 import os
 from flask.blueprints import Blueprint
 from flask import request
+from dotenv import load_dotenv
 
 from src.adapters.mongo import MongoAdapter
 from src.etc.config import ConfigHandler
 
+load_dotenv()
 config = ConfigHandler()
 
 database_adapter = {
     'mongodb': MongoAdapter
 }
-
-db = database_adapter[config['database_type']](
-    os.getenv('DATABASE_HOST'),
-    os.getenv('DATABASE_PORT'),
-    os.getenv('DATABASE_USER'),
-    os.getenv('DATABASE_PASS')
-)
 
 api_routes = Blueprint('api_routes', __name__)
 
@@ -28,6 +23,12 @@ def insert(database, collection):
     '''
     API Route to insert data into a database.
     '''
+    db = database_adapter[config['database_type']](
+        os.getenv('DATABASE_HOST'),
+        os.getenv('DATABASE_PORT'),
+        os.getenv('DATABASE_USER'),
+        os.getenv('DATABASE_PASS')
+    )
     db.connect(database)
     if request.method == 'GET':
         if request.args.get('id') is not None:
@@ -36,4 +37,4 @@ def insert(database, collection):
             print('No id passed with request')
             return db.find_by_id(database, collection)
     elif request.method == 'POST':
-        return db.insert(database, collection, request.form)
+        return db.insert(database, collection, request.get_json())

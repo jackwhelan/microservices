@@ -29,7 +29,7 @@ class MongoAdapter(DatabaseAdapter):
         '''
         self.default_database = database_name
         self.__add_credentials_to_host()
-        self.client = MongoClient(f'{self.host}/{database_name}', int(self.port), tlsCAFile=certifi.where())
+        self.client = MongoClient(f'{self.host}/{database_name}', self.port, tlsCAFile=certifi.where())
         return self.client
 
     def insert(self, database_name, collection_name, data):
@@ -42,7 +42,7 @@ class MongoAdapter(DatabaseAdapter):
         database = self.client[database_name]
         collection = database[collection_name]
         try:
-            collection.insert(data)
+            collection.insert_one(data)
             return {'response': 200}
         except:
             return {'response': 500}

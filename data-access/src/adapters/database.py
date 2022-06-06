@@ -11,7 +11,7 @@ class DatabaseAdapter(ABC):
     '''
     def __init__(self, host, port, username, password):
         self.host = host
-        self.port = port
+        self.port = int(port)
         self.username = username
         self.password = password
 
