@@ -26,7 +26,13 @@ def read(db_adapter: DatabaseAdapter, database: str, collection: str, request: R
     return response
 
 def update():
+    """
+    Update/PATCH functionality for database interactions.
+    """
     pass
 
 def delete():
+    """
+    Delete/DELETE functionality for database interactions.
+    """
     pass
