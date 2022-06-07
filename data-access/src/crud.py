@@ -25,8 +25,12 @@ def read(db_adapter: DatabaseAdapter, database: str, collection: str, request: R
         response = db_adapter.find_by_oid(database, collection)
     return response
 
-def update(db_adapter: DatabaseAdapter, database: str, collection: str, request: Request):
-    pass
+def update():
+    """
+    Update/PATCH functionality for database interactions.
+    """
 
-def delete(db_adapter: DatabaseAdapter, database: str, collection: str, request: Request):
-    pass
+def delete():
+    """
+    Delete/DELETE functionality for database interactions.
+    """
