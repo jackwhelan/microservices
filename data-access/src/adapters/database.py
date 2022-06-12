@@ -43,3 +43,13 @@ class DatabaseAdapter(ABC):
         :param table_name:
         :param oid:
         '''
+
+    @abstractmethod
+    def update(self, database_name, table_name, oid, data):
+        '''
+        Method to find a document or row by id and update it.
+        :param database_name:
+        :param table_name:
+        :param oid:
+        :param data:
+        '''
