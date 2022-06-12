@@ -1,11 +1,9 @@
 '''
 This module is a MongoDB adapter for the data-access microservice.
 '''
-import logging
 import certifi
 from pymongo import MongoClient
 from bson.objectid import ObjectId
-from bson.json_util import dumps
 
 from src.adapters.database import DatabaseAdapter
 from src.etc.exceptions import DatabaseException

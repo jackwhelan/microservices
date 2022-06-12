@@ -1,7 +1,6 @@
 """
 Module to house the functions which cater for CRUD operations.
 """
-import logging
 from flask import Request
 
 from src.etc.exceptions import DatabaseException
@@ -34,7 +33,7 @@ def update(db_adapter: DatabaseAdapter, database: str, collection: str, request:
     if request.args.get('oid') is not None:
         response = db_adapter.update(database, collection, request.args.get('oid'), request.get_json())
     else:
-        raise DatabaseException('Can not target document to update without a valid OID. Please pass a valid OID as a request arg.')
+        raise DatabaseException('Can not target document, Please pass a valid OID as a request arg.')
     return response
 
 def delete():

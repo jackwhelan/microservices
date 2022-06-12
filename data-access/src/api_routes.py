@@ -1,7 +1,6 @@
 '''
 API Routes for the Data-Access microservice.
 '''
-import logging
 import os
 from flask.blueprints import Blueprint
 from flask import request
