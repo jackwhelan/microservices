@@ -59,11 +59,11 @@ class MongoAdapter(DatabaseAdapter):
         collection = database[collection_name]
         if oid is not None:
             try:
-                return dumps(list(collection.find_one({"_id": ObjectId(oid)})))
+                return dumps(collection.find_one({"_id": ObjectId(oid)}))
             except DatabaseException as err:
                 return {'response': 500, 'message': err}
         else:
             try:
-                return dumps(list(collection.find()))
+                return dumps(collection.find())
             except DatabaseException as err:
                 return {'response': 500, 'message': err}
