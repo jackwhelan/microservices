@@ -19,9 +19,8 @@ def read(db_adapter: DatabaseAdapter, database: str, collection: str, request: R
     """
     db_adapter.connect(database)
     if request.args.get('oid') is not None:
-        response = db_adapter.find_by_oid(database, collection, request.args.get('id'))
+        response = db_adapter.find_by_oid(database, collection, request.args.get('oid'))
     else:
-        print('No oid passed with request')
         response = db_adapter.find_by_oid(database, collection)
     return response
 
