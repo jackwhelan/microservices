@@ -53,3 +53,13 @@ class DatabaseAdapter(ABC):
         :param oid:
         :param data:
         '''
+
+    @abstractmethod
+    def delete(self, database_name, table_name, oid):
+        '''
+        Method to find a document or row by id and delete it.
+        :param database_name:
+        :param table_name:
+        :param oid:
+        :param data:
+        '''

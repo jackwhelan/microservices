@@ -36,7 +36,13 @@ def update(db_adapter: DatabaseAdapter, database: str, collection: str, request:
         raise DatabaseException('Can not target document, Please pass a valid OID as a request arg.')
     return response
 
-def delete():
+def delete(db_adapter: DatabaseAdapter, database: str, collection: str, request: Request):
     """
     Delete/DELETE functionality for database interactions.
     """
+    db_adapter.connect(database)
+    if request.args.get('oid') is not None:
+        response = db_adapter.delete(database, collection, request.args.get('oid'))
+    else:
+        raise DatabaseException('Can not target document, Please pass a valid OID as a request arg.')
+    return response
