@@ -23,6 +23,7 @@ on:
         - data-access
         - version-bump
         - python-microservice-base
+        - auth-auth
       MICROSERVICE_VERSION_TYPE:
         description: 'Microservice Version Type'
         required: true
