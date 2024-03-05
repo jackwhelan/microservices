@@ -41,10 +41,11 @@ class MongoAdapter(DatabaseAdapter):
         database = self.client[database_name]
         collection = database[collection_name]
         try:
-            collection.insert_one(data)
+            db_result = collection.insert_one(data)
             return {
                 'status_code': 200,
-                'message': 'Inserted document into DB.'
+                'message': 'Inserted document into DB.',
+                'inserted_id': db_result.inserted_id
             }, 200
         except Exception as err:
             return {
