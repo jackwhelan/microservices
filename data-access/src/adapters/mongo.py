@@ -45,7 +45,7 @@ class MongoAdapter(DatabaseAdapter):
             return {
                 'status_code': 200,
                 'message': 'Inserted document into DB.',
-                'inserted_id': db_result.inserted_id
+                'inserted_id': str(db_result.inserted_id)
             }, 200
         except Exception as err:
             return {
